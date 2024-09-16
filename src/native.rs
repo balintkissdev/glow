@@ -1069,6 +1069,30 @@ impl HasContext for Context {
         Some(ActiveUniform { size, utype, name })
     }
 
+    unsafe fn get_subroutine_index(
+        &self,
+        program: Self::Program,
+        shader_type: u32,
+        name: &str,
+    ) -> u32 {
+        let gl = &self.raw;
+        let name = CString::new(name).unwrap();
+        gl.GetSubroutineIndex(
+            program.0.get(),
+            shader_type,
+            name.as_ptr() as *const native_gl::GLchar,
+        )
+    }
+
+    unsafe fn uniform_subroutines_u32_slice(&self, shader_type: u32, indices: &[u32]) {
+        let gl = &self.raw;
+        gl.UniformSubroutinesuiv(
+            shader_type,
+            indices.len() as i32,
+            indices.as_ptr() as *const u32,
+        );
+    }
+
     unsafe fn use_program(&self, program: Option<Self::Program>) {
         let gl = &self.raw;
         gl.UseProgram(program.map(|p| p.0.get()).unwrap_or(0));

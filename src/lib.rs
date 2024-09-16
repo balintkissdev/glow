@@ -463,6 +463,15 @@ pub trait HasContext: __private::Sealed {
         index: u32,
     ) -> Option<ActiveUniform>;
 
+    unsafe fn get_subroutine_index(
+        &self,
+        program: Self::Program,
+        shader_type: u32,
+        name: &str,
+    ) -> u32;
+
+    unsafe fn uniform_subroutines_u32_slice(&self, shader_type: u32, indices: &[u32]);
+
     unsafe fn use_program(&self, program: Option<Self::Program>);
 
     unsafe fn create_buffer(&self) -> Result<Self::Buffer, String>;

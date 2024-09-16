@@ -2302,6 +2302,19 @@ impl HasContext for Context {
         }
     }
 
+    unsafe fn get_subroutine_index(
+        &self,
+        _program: Self::Program,
+        _shader_type: u32,
+        _name: &str,
+    ) -> u32 {
+        panic!("Shader subroutines are not supported")
+    }
+
+    unsafe fn uniform_subroutines_u32_slice(&self, _shader_type: u32, _indices: &[u32]) {
+        panic!("Shader subroutines are not supported")
+    }
+
     unsafe fn use_program(&self, program: Option<Self::Program>) {
         let programs = self.programs.borrow();
         let raw_program = program.map(|p| programs.get_unchecked(p));
